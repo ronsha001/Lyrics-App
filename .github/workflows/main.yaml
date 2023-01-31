@@ -16,7 +16,7 @@ jobs:
       # Extract the latest tag and increase it by 1
       - name: Generate patch tag
         id: tag
-        if: startsWith(github.ref, 'refs/heads/release/')
+        # if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           BRANCH_PARTS=($(echo "$GITHUB_REF" | tr '/' ' '))
           VERSION=${BRANCH_PARTS[3]}
@@ -62,18 +62,18 @@ jobs:
           popd
       
       - name: Login into registry
-        if: startsWith(github.ref, 'refs/heads/release/')
+        # if: startsWith(github.ref, 'refs/heads/release/')
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          registry: 651569844
+          username: ${{ secrets.HUB_USERNAME }}
+          password: ${{ secrets.HUB_PASSWORD }}
 
-      - name: Publish To ACR
-        if: startsWith(github.ref, 'refs/heads/release/')
+      - name: Publish To HUB
+        # if: startsWith(github.ref, 'refs/heads/release/')
         run: |
-          docker tag test-app ${{ secrets.ACR_ENDPOINT }}/devtube-api:${{ steps.tag.outputs.NEW_VERSION }}
-          docker push ${{ secrets.ACR_ENDPOINT }}/devtube-api:${{ steps.tag.outputs.NEW_VERSION }}
+          docker tag test-app 651569844/lyrics:${{ steps.tag.outputs.NEW_VERSION }}
+          docker push 651569844/lyrics:${{ steps.tag.outputs.NEW_VERSION }}
 
       - name: Publish new tag
         if: startsWith(github.ref, 'refs/heads/release/')
@@ -83,15 +83,15 @@ jobs:
           git tag ${{ steps.tag.outputs.NEW_VERSION }}
           git push --tags
 
-      - name: Publish to devtube-chart
+      - name: Publish to lyrics-chart
         if: startsWith(github.ref, 'refs/heads/release/')
         run: |
-          git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/devtube-chart.git
+          git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
           echo "Update chart with new api image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
-          pushd devtube-chart/devtube
+          pushd lyrics-chart/lyrics
             yq e -i '(.api.image_tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            git commit -am "Github-Actions-api-update, version: ${newVersion}"
+            git commit -am "Github-Actions-update, version: ${newVersion}"
             git push origin master
           popd
