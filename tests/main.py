@@ -12,9 +12,10 @@ def song_test(song_name):
 
 def tests(songs):
   for song in songs:
-    print(f"Test song: {song} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+    print(f"Test song: {song}")
     test_no_cache = song_test(song)
     test_with_cache = song_test(song)
+    print(f"Duration: {test_with_cache}\n")
     if (test_with_cache > 0.05):
       raise Exception(f"Failed performance test, song request took {test_with_cache}s. The minimum requirment to pass performance test is 0.05s and lower.")
 
