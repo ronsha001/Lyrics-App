@@ -12,6 +12,7 @@ CORS(app)
 REDIS_DNS = os.environ.get("REDIT_DNS")
 REDIT_PORT = os.environ.get("REDIS_PORT")
 DEFAULT_EXECUTE_TIME = os.environ.get("DEFAULT_EXECUTE_TIME")
+PORT = os.environ.get("PORT")
 
 r = redis.Redis(host=REDIS_DNS, port=REDIT_PORT)
 
@@ -49,4 +50,4 @@ def get_lyrics(song):
 
 
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0', port=8000)
+  app.run(debug=True, host='0.0.0.0', port=PORT)

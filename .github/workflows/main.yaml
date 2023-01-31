@@ -16,7 +16,7 @@ jobs:
       # Extract the latest tag and increase it by 1
       - name: Generate patch tag
         id: tag
-        # if: startsWith(github.ref, 'refs/heads/release/')
+        if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           BRANCH_PARTS=($(echo "$GITHUB_REF" | tr '/' ' '))
           VERSION=${BRANCH_PARTS[3]}
@@ -62,15 +62,14 @@ jobs:
           popd
       
       - name: Login into registry
-        # if: startsWith(github.ref, 'refs/heads/release/')
+        if: startsWith(github.ref, 'refs/heads/release/')
         uses: docker/login-action@v1
         with:
-          # registry: 651569844
           username: ${{ secrets.HUB_USERNAME }}
           password: ${{ secrets.HUB_PASSWORD }}
 
       - name: Publish To HUB
-        # if: startsWith(github.ref, 'refs/heads/release/')
+        if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           docker tag test-app ${{ secrets.HUB_USERNAME }}/lyrics:${{ steps.tag.outputs.NEW_VERSION }}
           docker push ${{ secrets.HUB_USERNAME }}/lyrics:${{ steps.tag.outputs.NEW_VERSION }}
