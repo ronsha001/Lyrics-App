@@ -10,11 +10,17 @@ app = Flask(__name__)
 CORS(app)
 
 REDIS_DNS = os.environ.get("REDIT_DNS")
-REDIT_PORT = os.environ.get("REDIS_PORT")
+REDIS_PORT = os.environ.get("REDIS_PORT")
+
+try:
+  REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
+  r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT, password=REDIS_PASSWORD)
+except:
+  r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT)
+
 DEFAULT_EXECUTE_TIME = os.environ.get("DEFAULT_EXECUTE_TIME")
 PORT = os.environ.get("PORT")
 
-r = redis.Redis(host=REDIS_DNS, port=REDIT_PORT)
 
 @app.route("/")
 def general_room():
