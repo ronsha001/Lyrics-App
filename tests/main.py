@@ -8,7 +8,6 @@ def song_test(song_name):
   except:
     raise Exception("Something went wrong.")
   end = time.time()
-  print(r.text+"\n")
   return end - start
 
 def tests(songs):

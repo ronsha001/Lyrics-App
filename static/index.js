@@ -19,10 +19,7 @@ document.addEventListener("keypress", (e) => {
 })
 const getLyrics = async (songName) => {
   fetch(API_URL+"/lyrics?song="+songName, {
-    method: "GET",
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    method: "GET"
   })
     .then(response => response.text())
     .then(data => {
