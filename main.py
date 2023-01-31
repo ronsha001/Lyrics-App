@@ -34,7 +34,6 @@ def get_lyrics(song):
   cache = r.get(song)
   if cache:
     print("CACHE HIT")
-    print(cache)
     return cache
   else:
     print("CACHE MISS")
