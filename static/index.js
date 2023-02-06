@@ -24,16 +24,17 @@ const getLyrics = async (songName) => {
   .then(response => response.text())
   .then(data => {
     textarea.innerHTML = data
+    console.log("Fetched "+API_URL+"/lyrics?song="+songName)
   })
   .catch(error => {
     console.error(error)
-    fetch("http://192.168.49.2:30001/lyrics?song="+songName, {
+    fetch("http://192.168.49.2:30000/lyrics?song="+songName, {
       method: "GET"
     })
     .then(response => response.text())
     .then(data => {
       textarea.innerHTML = data
-      console.log("Fetched from port 8000.")
+      console.log("Fetched http://192.168.49.2:30000/lyrics?song="+songName)
     })
     .catch(error => console.error(error));
   });
