@@ -15,9 +15,11 @@ REDIS_PORT = os.environ.get("REDIS_PORT")
 try:
   REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT, password=REDIS_PASSWORD)
+  print("Connected (with password) to redis.")
 except:
   print("No password is needed for redis.")
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT)
+  print("Connected to redis.")
 
 DEFAULT_EXECUTE_TIME = os.environ.get("DEFAULT_EXECUTE_TIME")
 PORT = os.environ.get("PORT")
