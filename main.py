@@ -9,7 +9,7 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-REDIS_DNS = os.environ.get("REDIT_DNS")
+REDIS_DNS = os.environ.get("REDIS_DNS")
 REDIS_PORT = os.environ.get("REDIS_PORT")
 
 try:
@@ -57,10 +57,10 @@ def get_lyrics(song):
       end_index = html.find(end_delimiter)
       r.setex(song, DEFAULT_EXECUTE_TIME, html[start_index:end_index])
 
-    return html[start_index:end_index]
+    return html[start_index:end_index], 200
   except Exception as err:
     print(f"Something went wrong! {err}")
-    return f"Something went wrong! {err}"
+    return f"Something went wrong! {err}", 500
 
 
 
