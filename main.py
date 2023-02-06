@@ -16,6 +16,7 @@ try:
   REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT, password=REDIS_PASSWORD)
 except:
+  print("No password is needed for redis.")
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT)
 
 DEFAULT_EXECUTE_TIME = os.environ.get("DEFAULT_EXECUTE_TIME")
@@ -38,21 +39,25 @@ def lyrics():
 
 
 def get_lyrics(song):
-  cache = r.get(song)
-  if cache:
-    print("CACHE HIT")
-    return cache
-  else:
-    print("CACHE MISS")
-    data = requests.get(f"https://www.google.com/search?q={song} lyrics")
-    html = data.text
-    start_delimiter = '</span></div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd"><span dir="ltr">'
-    end_delimiter = "</span></div></div></div></div></div>"
-    start_index = html.find(start_delimiter) + len(start_delimiter)
-    end_index = html.find(end_delimiter)
-    r.setex(song, DEFAULT_EXECUTE_TIME, html[start_index:end_index])
+  try:
+    cache = r.get(song)
+    if cache:
+      print("CACHE HIT")
+      return cache
+    else:
+      print("CACHE MISS")
+      data = requests.get(f"https://www.google.com/search?q={song} lyrics")
+      html = data.text
+      start_delimiter = '</span></div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd"><span dir="ltr">'
+      end_delimiter = "</span></div></div></div></div></div>"
+      start_index = html.find(start_delimiter) + len(start_delimiter)
+      end_index = html.find(end_delimiter)
+      r.setex(song, DEFAULT_EXECUTE_TIME, html[start_index:end_index])
 
-  return html[start_index:end_index]
+    return html[start_index:end_index]
+  except Exception as err:
+    print(f"Something went wrong! {err}")
+
 
 
 if __name__ == '__main__':
