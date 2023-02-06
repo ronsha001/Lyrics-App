@@ -59,6 +59,7 @@ def get_lyrics(song):
     return html[start_index:end_index]
   except Exception as err:
     print(f"Something went wrong! {err}")
+    return err
 
 
 
