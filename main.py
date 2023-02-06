@@ -37,6 +37,7 @@ def health():
 def lyrics():
   song_name = request.args.get('song')
   lyrics = get_lyrics(song_name)
+  print(lyrics)
   return lyrics
 
 
