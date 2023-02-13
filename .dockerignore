@@ -1,6 +1,7 @@
 Dockerfile
 docker-compose.yaml
+/.*
 /static
+/templates
 /tests
-/.github
 /nginx

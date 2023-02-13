@@ -11,12 +11,12 @@ CORS(app)
 
 REDIS_DNS = os.environ.get("REDIS_DNS")
 REDIS_PORT = os.environ.get("REDIS_PORT")
+REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
 
-try:
-  REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD")
+if REDIS_PASSWORD:
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT, password=REDIS_PASSWORD)
   print("Connected (with password) to redis.")
-except:
+else:
   print("No password is needed for redis.")
   r = redis.Redis(host=REDIS_DNS, port=REDIS_PORT)
   print("Connected to redis.")

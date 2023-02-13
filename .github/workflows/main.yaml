@@ -86,11 +86,11 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
-          echo "Update chart with new api image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
+          echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
           pushd lyrics-chart/lyrics
             yq e -i '(.api.image_tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            git commit -am "Github-Actions-update, version: ${newVersion}"
+            git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             git push origin master
           popd

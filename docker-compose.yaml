@@ -12,11 +12,11 @@ services:
       - lyrics
 
   lyrics:
-    image: lyrics
+    build: .
     container_name: lyrics
     restart: always
     environment:
-      - REDIT_DNS=redis
+      - REDIS_DNS=redis
     depends_on:
       - redis
 
