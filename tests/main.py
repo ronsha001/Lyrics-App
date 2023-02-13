@@ -2,6 +2,17 @@ import requests
 import time
 
 def song_test(song_name):
+  """ This function making an HTTP request to route /lyrics, timing the request duration and test if the request is successfull.
+
+  Args:
+      song_name (string): song name to search for lyrics
+
+  Raises:
+      Exception: HTTP request failed.
+
+  Returns:
+      _type_: float (time)
+  """
   start = time.time()
   try:
     r = requests.get(f"http://localhost/lyrics?song={song_name}")
@@ -11,6 +22,14 @@ def song_test(song_name):
   return end - start
 
 def tests(songs):
+  """ This function will loop over songs, and in each iteration it will call the song_test function.
+
+  Args:
+      songs (string): list of songs to test
+
+  Raises:
+      Exception: Performance was to slow (above 5 seconds).
+  """
   for song in songs:
     print(f"Test song: {song}")
     test_no_cache = song_test(song)

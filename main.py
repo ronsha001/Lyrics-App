@@ -27,14 +27,29 @@ PORT = os.environ.get("PORT")
 
 @app.route("/")
 def general_room():
+  """ Main window/home page of the app
+
+  Returns:
+      _type_: file (html)
+  """
   return render_template('index.html')
 
 @app.route("/health")
 def health():
+  """ Simple health check.
+
+  Returns:
+      _type_: text_
+  """
   return "OK"
 
 @app.route("/lyrics")
 def lyrics():
+  """ API Route to get lyrics of a sing, it is expecting song argument.
+
+  Returns:
+      _type_: text
+  """
   song_name = request.args.get('song')
   lyrics = get_lyrics(song_name)
   print(lyrics)
@@ -42,6 +57,14 @@ def lyrics():
 
 
 def get_lyrics(song):
+  """ This function search for lyrics in Google, by making an http request to google and manipulating the data.
+
+  Args:
+      song (string): song name to search
+
+  Returns:
+      _type_: string (string of lyrics)
+  """
   try:
     cache = r.get(song)
     if cache:
