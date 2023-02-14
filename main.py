@@ -68,7 +68,7 @@ def get_lyrics(song, song_lang):
   """
 
   try:
-    if song_lang == None or song == None or song_lang != "en" or song_lang != "he":
+    if (song_lang == None or song == None) or (song_lang != "en" and song_lang != "he"):
       raise Exception("Error: no language or song name specified")
     cache = r.get(song)
     if cache:
