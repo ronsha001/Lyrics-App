@@ -1,11 +1,17 @@
 const inputElement = document.querySelector(".searchInp");
 const searchBtn = document.querySelector(".searchBtn");
 const textarea = document.querySelector(".textarea");
+const lang = document.getElementById("lang");
 
 const API_URL = "http://localhost";
 
 const searchFunction = () => {
   const songName = inputElement.value;
+  if (!songName) {
+    console.log("Please enter a song name");
+    console.log(lang.options[lang.selectedIndex].text);
+    return;
+  }
   textarea.innerHTML = "";
   getLyrics(songName);
 };
