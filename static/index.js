@@ -7,13 +7,13 @@ const API_URL = "http://localhost";
 
 const searchFunction = () => {
   const songName = inputElement.value;
-  if (!songName) {
+  const songLang = lang.options[lang.selectedIndex].value;
+  if (!songName || !songLang) {
     console.log("Please enter a song name");
-    console.log(lang.options[lang.selectedIndex].text);
     return;
   }
   textarea.innerHTML = "";
-  getLyrics(songName);
+  getLyrics(songName, songLang);
 };
 
 searchBtn.addEventListener("click", searchFunction);
@@ -23,25 +23,26 @@ document.addEventListener("keypress", (e) => {
     searchFunction();
   }
 });
-const getLyrics = async (songName) => {
-  fetch(API_URL + "/lyrics?song=" + songName, {
+const getLyrics = async (songName, songLang) => {
+  const args = "song=" + songName + "&lang=" + songLang
+  fetch(API_URL + "/lyrics?" + args, {
     method: "GET",
   })
     .then((response) => response.text())
     .then((data) => {
       textarea.innerHTML = data;
-      console.log("Fetched " + API_URL + "/lyrics?song=" + songName);
+      console.log("Fetched " + API_URL + "/lyrics?" + args);
     })
     .catch((error) => {
       console.error(error);
-      fetch("http://192.168.49.2:30000/lyrics?song=" + songName, {
+      fetch("http://192.168.49.2:30000/lyrics?" + args, {
         method: "GET",
       })
         .then((response) => response.text())
         .then((data) => {
           textarea.innerHTML = data;
           console.log(
-            "Fetched http://192.168.49.2:30000/lyrics?song=" + songName
+            "Fetched http://192.168.49.2:30000/lyrics?" + args
           );
         })
         .catch((error) => console.error(error));
