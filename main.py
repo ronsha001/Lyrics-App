@@ -66,7 +66,10 @@ def get_lyrics(song, song_lang):
   Returns:
       _type_: string (string of lyrics)
   """
+
   try:
+    if song_lang == None or song == None:
+      raise Exception("Error: no language or song name specified")
     cache = r.get(song)
     if cache:
       print("CACHE HIT")
@@ -90,7 +93,7 @@ def get_lyrics(song, song_lang):
     return html[start_index:end_index], 200
   except Exception as err:
     print(f"Something went wrong! {err}")
-    return f"Something went wrong! {err}", 500
+    return f"Something went wrong! {err}", 400
 
 
 
