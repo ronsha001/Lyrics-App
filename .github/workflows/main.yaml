@@ -90,7 +90,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
           pushd lyrics-chart/lyrics
-            yq e -i '(.api.image_tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
+            yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
             git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             git push origin master
           popd
