@@ -51,12 +51,13 @@ def lyrics():
       _type_: text
   """
   song_name = request.args.get('song')
-  lyrics = get_lyrics(song_name)
+  song_lang = request.args.get('lang')
+  lyrics = get_lyrics(song_name, song_lang)
   print(lyrics)
   return lyrics
 
 
-def get_lyrics(song):
+def get_lyrics(song, song_lang):
   """ This function search for lyrics in Google, by making an http request to google and manipulating the data.
 
   Args:
@@ -74,8 +75,14 @@ def get_lyrics(song):
       print("CACHE MISS")
       data = requests.get(f"https://www.google.com/search?q={song} lyrics")
       html = data.text
-      start_delimiter = '</span></div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd"><span dir="ltr">'
-      end_delimiter = "</span></div></div></div></div></div>"
+
+      if song_lang == "en":
+        start_delimiter = '</span></div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd"><span dir="ltr">'
+        end_delimiter = "</span></div></div></div></div></div>"
+      elif song_lang == "he":
+        start_delimiter = '</div></div></div></div><div class="hwc"><div class="BNeawe tAd8D AP7Wnd"><div><div class="BNeawe tAd8D AP7Wnd">'
+        end_delimiter = '</div></div></div></div></div><div><span class="hwc"><div class="BNeawe uEec3 AP7Wnd">'
+
       start_index = html.find(start_delimiter) + len(start_delimiter)
       end_index = html.find(end_delimiter)
       r.setex(song, DEFAULT_EXECUTE_TIME, html[start_index:end_index])
