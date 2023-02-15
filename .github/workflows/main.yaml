@@ -89,7 +89,9 @@ jobs:
           # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
-          pushd /static
+          pwd
+          ls -alF
+          pushd ./static
             html=$(cat index.html)
             js=$(cat index.js)
             css=$(cat main.css)
