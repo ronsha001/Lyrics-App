@@ -92,7 +92,7 @@ jobs:
           echo 'JS=$JS' >> $GITHUB_OUTPUT
 
           CSS=$(cat ./static/main.css)
-          echo "CSS=$CS" >> $GITHUB_OUTPUT
+          echo "CSS=$CSS" >> $GITHUB_OUTPUT
 
       - name: Publish to lyrics-chart
         # if: startsWith(github.ref, 'refs/heads/release/')
