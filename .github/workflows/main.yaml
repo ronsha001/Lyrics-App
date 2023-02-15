@@ -96,9 +96,9 @@ jobs:
           pushd lyrics-chart/lyrics
             echo $html
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '(.ingress.static-files.index-html = env(html))' values.yaml
-            yq e -i '(.ingress.static-files.index-js = env(js))' values.yaml
-            yq e -i '(.ingress.static-files.main-css = env(css))' values.yaml
+            yq e -i '(.ingress.static-files.index-html = $html)' values.yaml
+            yq e -i '(.ingress.static-files.index-js = $js)' values.yaml
+            yq e -i '(.ingress.static-files.main-css = $css)' values.yaml
             cat values.yaml
             # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             # git push origin master
