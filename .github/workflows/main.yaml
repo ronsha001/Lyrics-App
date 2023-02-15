@@ -81,6 +81,19 @@ jobs:
           git tag ${{ steps.tag.outputs.NEW_VERSION }}
           git push --tags
 
+      - name: Handle static files
+        # if: startsWith(github.ref, 'refs/heads/release/')
+        id: staticfiles
+        run: |
+          pushd ./static
+            html=$(cat index.html)
+            echo "HTML=$html" >> $GITHUB_OUTPUT
+            js=$(cat index.js)
+            echo "JS=$js" >> $GITHUB_OUTPUT
+            css=$(cat main.css)
+            echo "CSS=$css" >> $GITHUB_OUTPUT
+          popd
+          
       - name: Publish to lyrics-chart
         # if: startsWith(github.ref, 'refs/heads/release/')
         run: |
@@ -88,17 +101,11 @@ jobs:
           # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
-          pushd ./static
-            export html=$(cat index.html)
-            export js=$(cat index.js)
-            export css=$(cat main.css)
-          popd
           pushd lyrics-chart/lyrics
-            echo $html
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '(.ingress.static-files.index-html = $html)' values.yaml
-            yq e -i '(.ingress.static-files.index-js = $js)' values.yaml
-            yq e -i '(.ingress.static-files.main-css = $css)' values.yaml
+            yq e -i '(.ingress.static-files.index-html = "${{ steps.staticfiles.outputs.HTML }}")' values.yaml
+            yq e -i '(.ingress.static-files.index-js = "${{ steps.staticfiles.outputs.JS }}")' values.yaml
+            yq e -i '(.ingress.static-files.main-css = "${{ steps.staticfiles.outputs.CSS }}")' values.yaml
             cat values.yaml
             # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             # git push origin master
