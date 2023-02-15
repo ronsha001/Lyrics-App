@@ -89,8 +89,6 @@ jobs:
           # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
-          pwd
-          ls -alF
           pushd ./static
             html=$(cat index.html)
             js=$(cat index.js)
@@ -98,9 +96,9 @@ jobs:
           popd
           pushd lyrics-chart/lyrics
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '(.ingress.static-files.index-html = "$html")' values.yaml
-            yq e -i '(.ingress.static-files.index-js = "$js")' values.yaml
-            yq e -i '(.ingress.static-files.main-css = "$css")' values.yaml
+            yq e -i '(.ingress.static-files.index-html = $html)' values.yaml
+            yq e -i '(.ingress.static-files.index-js = $js)' values.yaml
+            yq e -i '(.ingress.static-files.main-css = $css)' values.yaml
             cat values.yaml
             # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             # git push origin master
