@@ -51,7 +51,6 @@ jobs:
           yq e -i 'del(.services.mongo.volumes, .volumes)' docker-compose.yaml
           
           docker build -t test-app .
-          cat docker-compose.yaml
           docker-compose up -d
 
       - name: Tests
@@ -95,6 +94,7 @@ jobs:
             css=$(cat main.css)
           popd
           pushd lyrics-chart/lyrics
+            echo $html
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
             yq e -i '(.ingress.static-files.index-html = $html)' values.yaml
             yq e -i '(.ingress.static-files.index-js = $js)' values.yaml
