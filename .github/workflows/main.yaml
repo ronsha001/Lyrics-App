@@ -83,10 +83,10 @@ jobs:
           git push --tags
 
       - name: Publish to lyrics-chart
-        if: startsWith(github.ref, 'refs/heads/release/')
+        # if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
-          echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
+          # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
           pushd /static
@@ -100,6 +100,6 @@ jobs:
             yq e -i '(.ingress.static-files.index-js = "$js")' values.yaml
             yq e -i '(.ingress.static-files.main-css = "$css")' values.yaml
             cat values.yaml
-            git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
-            git push origin master
+            # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
+            # git push origin master
           popd
