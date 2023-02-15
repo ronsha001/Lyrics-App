@@ -85,13 +85,13 @@ jobs:
         # if: startsWith(github.ref, 'refs/heads/release/')
         id: staticfiles
         run: |
-          HTML=$(cat ./static/index.html)
+          HTML=$(cat ./static/index.html | tr '\n' ' ')
           echo "HTML=$HTML" >> $GITHUB_OUTPUT
 
-          JS=$(cat ./static/index.js)
+          JS=$(cat ./static/index.js | tr '\n' ' ')
           echo "JS=$JS" >> $GITHUB_OUTPUT
 
-          CSS=$(cat ./static/main.css)
+          CSS=$(cat ./static/main.css | tr '\n' ' ')
           echo "CSS=$CSS" >> $GITHUB_OUTPUT
 
       - name: Publish to lyrics-chart
