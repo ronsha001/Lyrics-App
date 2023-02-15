@@ -89,9 +89,9 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
           pushd ./static
-            html=$(cat index.html)
-            js=$(cat index.js)
-            css=$(cat main.css)
+            export html=$(cat index.html)
+            export js=$(cat index.js)
+            export css=$(cat main.css)
           popd
           pushd lyrics-chart/lyrics
             echo $html
