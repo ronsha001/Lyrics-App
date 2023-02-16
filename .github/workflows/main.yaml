@@ -105,7 +105,7 @@ jobs:
           export INDEX_HTML=$(cat ./static/index.html)
           pushd lyrics-chart/lyrics
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '.ingress.static-files.index-html = strenv("INDEX_HTML")' values.yaml
+            yq e -i '.ingress.static-files.index-html = strenv("INDEX_HTML")' --argfile INDEX_HTML ../../static/index.html values.yaml
             # yq e -i '(.ingress.static-files.index-js = "${{ steps.staticfiles.outputs.JS }}")' values.yaml
             # yq e -i '(.ingress.static-files.main-css = "${{ steps.staticfiles.outputs.CSS }}")' values.yaml
             cat values.yaml
