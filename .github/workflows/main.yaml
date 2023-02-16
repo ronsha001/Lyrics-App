@@ -102,9 +102,10 @@ jobs:
           # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
+          export INDEX_HTML=$(cat ./static/index.html)
           pushd lyrics-chart/lyrics
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '(.ingress.static-files.index-html = @../../static/index.html)' values.yaml
+            yq e -i '.ingress.static-files.index-html = strenv("INDEX_HTML")' values.yaml
             # yq e -i '(.ingress.static-files.index-js = "${{ steps.staticfiles.outputs.JS }}")' values.yaml
             # yq e -i '(.ingress.static-files.main-css = "${{ steps.staticfiles.outputs.CSS }}")' values.yaml
             cat values.yaml
