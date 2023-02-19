@@ -81,25 +81,11 @@ jobs:
           git tag ${{ steps.tag.outputs.NEW_VERSION }}
           git push --tags
 
-      # - name: Handle static files
-      #   # if: startsWith(github.ref, 'refs/heads/release/')
-      #   id: staticfiles
-      #   run: |
-      #     echo "HTML<<EOF" >> $GITHUB_ENV
-      #     cat ./static/index.html >> $GITHUB_ENV
-      #     echo "<<EOF" >> $GITHUB_ENV
-
-      #     # JS=$(cat ./static/index.js)
-      #     # echo 'JS=$JS' >> $GITHUB_OUTPUT
-
-      #     # CSS=$(cat ./static/main.css)
-      #     # echo "CSS=$CSS" >> $GITHUB_OUTPUT
-
       - name: Publish to lyrics-chart
-        # if: startsWith(github.ref, 'refs/heads/release/')
+        if: startsWith(github.ref, 'refs/heads/release/')
         run: |
           git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
-          # echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
+          echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
           git config --global user.email "you@example.com"
           git config --global user.name "IamGithubActions"
           export INDEX_HTML=$(cat ./static/index.html)
@@ -109,6 +95,6 @@ jobs:
             yq e -i '.ingress.static-files.index-js = "'"$(sed -e 's@"@\\"@g' ../../static/index.js)"'"' values.yaml
             yq e -i '.ingress.static-files.main-css = "'"$(cat ../../static/main.css)"'"' values.yaml
             cat values.yaml
-            # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
-            # git push origin master
+            git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
+            git push origin master
           popd
