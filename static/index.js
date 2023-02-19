@@ -24,7 +24,7 @@ document.addEventListener("keypress", (e) => {
   }
 });
 const getLyrics = async (songName, songLang) => {
-  const args = "song=" + songName + "&lang=" + songLang
+  const args = "song=" + songName + "&lang=" + songLang;
   fetch(API_URL + "/lyrics?" + args, {
     method: "GET",
   })
@@ -41,9 +41,7 @@ const getLyrics = async (songName, songLang) => {
         .then((response) => response.text())
         .then((data) => {
           textarea.innerHTML = data;
-          console.log(
-            "Fetched http://192.168.49.2:30000/lyrics?" + args
-          );
+          console.log("Fetched http://192.168.49.2:30000/lyrics?" + args);
         })
         .catch((error) => console.error(error));
     });
