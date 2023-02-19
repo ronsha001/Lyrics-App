@@ -16,7 +16,7 @@ body {
 }
 .mainContainer h1 {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  color: #e2e2e2;
+  color: #dd5050;
 }
 .lang_container {
   display: flex;
