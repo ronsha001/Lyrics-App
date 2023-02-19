@@ -91,9 +91,9 @@ jobs:
           export INDEX_HTML=$(cat ./static/index.html)
           pushd lyrics-chart/lyrics
             yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
-            yq e -i '.ingress.static-files.index-html = "'"$(sed -e 's@"@\\"@g' ../../static/index.html)"'"' values.yaml
-            yq e -i '.ingress.static-files.index-js = "'"$(sed -e 's@"@\\"@g' ../../static/index.js)"'"' values.yaml
-            yq e -i '.ingress.static-files.main-css = "'"$(cat ../../static/main.css)"'"' values.yaml
+            yq e -i '.ingress.static_files.index_html = "'"$(sed -e 's@"@\\"@g' ../../static/index.html)"'"' values.yaml
+            yq e -i '.ingress.static_files.index_js = "'"$(sed -e 's@"@\\"@g' ../../static/index.js)"'"' values.yaml
+            yq e -i '.ingress.static_files.main_css = "'"$(cat ../../static/main.css)"'"' values.yaml
             cat values.yaml
             git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
             git push origin master
