@@ -45,7 +45,7 @@ def health():
 
 @app.route("/lyrics")
 def lyrics():
-  """ API Route to get lyrics of a sing, it is expecting song argument.
+  """ API Route to get lyrics of a song, it is expecting song name and language arguments.
 
   Returns:
       _type_: text
@@ -53,7 +53,6 @@ def lyrics():
   song_name = request.args.get('song')
   song_lang = request.args.get('lang')
   lyrics = get_lyrics(song_name, song_lang)
-  print(lyrics)
   return lyrics
 
 
@@ -62,6 +61,7 @@ def get_lyrics(song, song_lang):
 
   Args:
       song (string): song name to search
+      song_lang (string): language of the song
 
   Returns:
       _type_: string (string of lyrics)
