@@ -90,13 +90,15 @@ jobs:
           git config --global user.name "IamGithubActions"
           export INDEX_HTML=$(cat ./static/index.html)
           pushd lyrics-chart/lyrics
-            yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
             cat ../../static/index.html > ./index.html
             cat ./index.html
             cat ../../static/index.js > ./index.js
             cat ./index.js
             cat ../../static/main.css > ./main.css
             cat ./main.css
-            git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
+            git commit -am "CI updated static files."
             git push origin master
           popd
+
+# yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
+# git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
