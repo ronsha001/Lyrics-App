@@ -81,24 +81,24 @@ jobs:
           git tag ${{ steps.tag.outputs.NEW_VERSION }}
           git push --tags
 
-      - name: Publish to lyrics-chart
-        if: startsWith(github.ref, 'refs/heads/release/')
-        run: |
-          git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
-          echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
-          git config --global user.email "you@example.com"
-          git config --global user.name "IamGithubActions"
-          export INDEX_HTML=$(cat ./static/index.html)
-          pushd lyrics-chart/lyrics
-            cat ../../static/index.html > ./index.html
-            cat ./index.html
-            cat ../../static/index.js > ./index.js
-            cat ./index.js
-            cat ../../static/main.css > ./main.css
-            cat ./main.css
-            git commit -am "CI updated static files."
-            git push origin master
-          popd
+# - name: Publish to lyrics-chart
+#   if: startsWith(github.ref, 'refs/heads/release/')
+#   run: |
+#     git clone https://${{ secrets.USERNAME }}:${{ secrets.TOKEN }}@github.com/ronsha001/lyrics-chart.git
+#     echo "Update chart with new app image tag: ${{ steps.tag.outputs.NEW_VERSION }}"
+#     git config --global user.email "you@example.com"
+#     git config --global user.name "IamGithubActions"
+#     export INDEX_HTML=$(cat ./static/index.html)
+#     pushd lyrics-chart/lyrics
+#       cat ../../static/index.html > ./index.html
+#       cat ./index.html
+#       cat ../../static/index.js > ./index.js
+#       cat ./index.js
+#       cat ../../static/main.css > ./main.css
+#       cat ./main.css
+#       git commit -am "CI updated static files."
+#       git push origin master
+#     popd
 
 # yq e -i '(.lyrics.image.tag = "${{ steps.tag.outputs.NEW_VERSION }}")' values.yaml
 # git commit -am "Github-Actions-update, version: ${{ steps.tag.outputs.NEW_VERSION }}"
